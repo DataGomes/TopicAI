@@ -16,7 +16,7 @@ Before using the library, you need to set up your API keys. You can do this in t
 1. Set environment variables:
    - PYBLIOMETRICS_API_KEY
    - VOYAGE_API_KEY
-   - TOGETHER_API_KEY
+   - OPENAI_API_KEY
 
 2. Use the `set_api_keys()` function:
 
@@ -25,12 +25,12 @@ from report_generator import set_api_keys
 
 set_api_keys(
     pybliometrics_key="your_pybliometrics_key",
-    voyage_key="your_voyage_key",
-    together_key="your_together_key"
+    voyage_key="your_openai_key",
+    openai_key="your_openai_key"
 )
 ```
 
-Ensure you have the necessary permissions and subscriptions for Scopus API, Voyage AI, and Together AI.
+Ensure you have the necessary permissions and subscriptions for Scopus API, Voyage AI, and OpenAI AI.
 
 ## Usage
 
@@ -43,7 +43,7 @@ from report_generator import ReportAI, set_api_keys
 set_api_keys(
     pybliometrics_key="your_pybliometrics_key",
     voyage_key="your voyage key",
-    together_key="your together key"
+    openai_key="your openai key"
 )
 
 # Create a ReportAI instance
