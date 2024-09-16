@@ -1,5 +1,5 @@
 import argparse
-from .report_generator import ReportAI
+from .report_generator import TopicAI
 from .config import set_api_keys
 
 def main():
@@ -11,7 +11,7 @@ def main():
     # Set API keys (you might want to add arguments for these as well)
     set_api_keys()
 
-    generator = ReportAI()
+    generator = TopicAI()
     html_output, query, html_pdf = generator.run_report(args.query, args.output)
 
     if html_pdf == "failure":
