@@ -1,2 +1,2 @@
-from .report_generator import ReportAI
+from .report_generator import TopicAI
 from .config import set_api_keys
