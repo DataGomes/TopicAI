@@ -5,7 +5,7 @@ import voyageai
 import openai
 def set_api_keys(pybliometrics_key: str = None, openai_key: str = None, voyage_key: str = None):
     """
-    Set API keys for the various services used by the ReportAI.
+    Set API keys for the various services used by the TopicAI.
     If keys are not provided, it will attempt to load them from environment variables.
     
     Returns:
