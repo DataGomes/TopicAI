@@ -1,0 +1,13 @@
+pandas
+numpy
+nltk
+pybliometrics
+markdown2
+weasyprint
+python-dotenv
+together
+cohere
+ftfy
+scikit-learn
+umap-learn
+bertopic
