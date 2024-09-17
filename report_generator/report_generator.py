@@ -23,6 +23,7 @@ from functools import partial
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
+nltk.download('punkt_tab')
 # Attempt to import WeasyPrint, but handle the import error
 try:
     from weasyprint import HTML
