@@ -5,8 +5,8 @@ pybliometrics
 markdown2
 weasyprint
 python-dotenv
-together
-cohere
+openai
+voygeai
 ftfy
 scikit-learn
 umap-learn
