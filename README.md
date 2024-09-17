@@ -50,7 +50,7 @@ set_api_keys(
 generator = TopicAI()
 
 # Generate a report
-query = "artificial intelligence in healthcare and genetics"
+query = "artificial intelligence in genetics"
 html_output, query, html_pdf = generator.run_report(query, output_dir="/home/ag2418/.vscode/Results")
 
 if html_pdf == "failure":
