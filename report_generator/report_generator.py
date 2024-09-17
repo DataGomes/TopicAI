@@ -202,7 +202,7 @@ class TopicAI:
             umap_model = UMAP(n_components=5, n_neighbors=15, min_dist=0.0, metric='cosine', low_memory=False, random_state = random_state)
             umap_embeddings = umap_model.fit_transform(embeddings)
 
-            ClusterSize = int(len(docs)/150)
+            ClusterSize = int(len(docs)/100)
             if ClusterSize < 10:
                 ClusterSize = 10
 
