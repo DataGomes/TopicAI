@@ -136,7 +136,6 @@ class TopicAI:
         q = query + basis
         failure = None
         df_scopus = pd.DataFrame(columns=['title', 'description', 'doi'])
-        q=f'TITLE-ABS ((railway OR railroad OR trainline OR railtrack OR waterway OR locomotive OR "train carriage") AND (connectivity OR communication)) AND PUBYEAR > 2019 AND LANGUAGE ( "English" ) AND ( DOCTYPE ( "ar" ) OR DOCTYPE ( "re" ) OR DOCTYPE ( "cp" ) )'
         for attempt in range(max_attempts):
             s = ScopusSearch(q, download=False)
             results_size = s.get_results_size()
