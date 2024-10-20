@@ -5,7 +5,7 @@ pybliometrics
 markdown2
 weasyprint
 python-dotenv
-openai
+anthropic
 voyageai
 ftfy
 scikit-learn

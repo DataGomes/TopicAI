@@ -9,7 +9,6 @@ from pybliometrics.scopus import ScopusSearch
 import re
 import markdown2
 import logging
-from openai import OpenAI
 import pybliometrics
 import voyageai
 import nltk
@@ -22,7 +21,7 @@ from hdbscan import HDBSCAN
 from functools import partial
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
-print("working")
+import anthropic
 nltk.download('punkt_tab')
 # Attempt to import WeasyPrint, but handle the import error
 try:
@@ -51,7 +50,7 @@ class TopicAI:
         self.stop_words = set(stopwords.words('english')) - {'d'}
         self.punctuation_translator = str.maketrans('', '', string.punctuation.replace('-', ''))
         self.vo = voyageai.Client()
-        self.openai_client = OpenAI()
+        self.anthropic_client = anthropic.Anthropic()
         self.counter = 0
         self.counter_lock = Lock()
 
@@ -227,8 +226,6 @@ class TopicAI:
         return bertopic_df, umap_embeddings, topic_model
     
     def filter_bertopic(self, bertopic_df, query):
-        client = OpenAI()
-        
         Keywords = bertopic_df['Representation']
         representative_docs = bertopic_df['Representative_Docs']
 
@@ -282,15 +279,16 @@ class TopicAI:
             Your response:
             """
 
-            response = client.chat.completions.create(
+            response = self.anthropic_client.messages.create(
+                model="claude-3-5-sonnet-20240620",
+                max_tokens=8192,
+                temperature=0,
+                system="You are an expert at creating topic labels. In this task, you will be provided with a set of keywords related to ONE particular topic. Your job is to use these keywords, prioritizing the first keywords, to come up with an accurate and short label for the topic. It is crucial that you base your label STRICTLY on the keywords.",
                 messages=[
-                    {'role': 'system', 'content': 'You are an expert at creating topic labels. In this task, you will be provided with a set of keywords related to ONE particular topic. Your job is to use these keywords, prioritizing the first keywords, to come up with an accurate and short label for the topic. It is crucial that you base your label STRICLY on the keywords.'},
-                    {'role': 'user', 'content': prompt},
-                ],
-                model="gpt-4o",
-                temperature=0
+                    {"role": "user", "content": prompt}
+                ]
             )
-            response_content = response.choices[0].message.content
+            response_content = response.content[0].text
 
             query_embedding = self.get_embeddings(query)
 
@@ -438,15 +436,16 @@ class TopicAI:
         """
 
     def _get_ai_summary(self, query: str, theme: str) -> str:
-        response = self.openai_client.chat.completions.create(
+        response = self.anthropic_client.messages.create(
+            model="claude-3-5-sonnet-20240620",
+            max_tokens=8192,
+            temperature=0,
+            system=f'You are a scientist working on a project about scientific abstracts related to the topic: {theme}. You are an expert at writing summaries based upon abstracts. You DO NOT use information outside of the provided text. You are a scientific abstract summarizer, so the summary must be based ONLY on the provided text. Answer directly about the topic: {theme}, DO NOT tell this is the summary or use the word "summary" or "abstract" in your response.',
             messages=[
-                {'role': 'system', 'content': f'You are a scientist working on a project about scientific abstracts related to the topic: {theme}. You are an expert at writing summaries based upon abstracts. You DO NOT use information outside of the provided text. You are a scientific abstract summarizer, so the summary must be based ONLY on the provided text. Answer directly about the topic: {theme}, DO NOT tell this is the summary or use the word "summary" or "abstract" in your response.'},
-                {'role': 'user', 'content': query},
-            ],
-            model="gpt-4o",
-            temperature=0
+                {"role": "user", "content": query}
+            ]
         )
-        return response.choices[0].message.content
+        return response.content[0].text
     def create_markdown_toc(self, text):
         lines = text.split('\n')
         toc = ["## Table of topics"]
@@ -542,3 +541,5 @@ class TopicAI:
             logger.info(f"Report generated. HTML saved to {model_save_path}")
 
         return html_output, query, html_output
+
+
