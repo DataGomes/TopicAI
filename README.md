@@ -1,6 +1,6 @@
 # Report Generator
 
-This library generates reports based on scientific literature queries using Scopus, Voyage AI, and Anthropic Claude.
+This library generates reports based on scientific literature queries using Gemini.
 
 ## Installation
 
@@ -16,7 +16,7 @@ Before using the library, you need to set up your API keys. You can do this in t
 1. Set environment variables:
    - PYBLIOMETRICS_API_KEY
    - VOYAGE_API_KEY
-   - CLAUDE_API_KEY
+   - GEMINI_API_KEY
 
 2. Use the `set_api_keys()` function:
 
@@ -26,11 +26,11 @@ from report_generator import set_api_keys
 set_api_keys(
     pybliometrics_key="your_pybliometrics_key",
     voyage_key="your_voyage_key",
-    claude_key="your_claude_key"
+    gemini_key="your_gemini_key"
 )
 ```
 
-Ensure you have the necessary permissions and subscriptions for Scopus API, Voyage AI, and Anthropic Claude.
+Ensure you have the necessary permissions and subscriptions for Scopus API, Voyage AI, and Gemini.
 
 ## Usage
 
@@ -43,7 +43,7 @@ from report_generator import TopicAI, set_api_keys
 set_api_keys(
     pybliometrics_key="your_pybliometrics_key",
     voyage_key="your voyage key",
-    claude_key="your claude key"
+    gemini_key="your gemini key"
 )
 
 # Create a TopicAI instance
