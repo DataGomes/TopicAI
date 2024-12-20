@@ -278,17 +278,12 @@ class TopicAI:
 
             Your response:
             """
+            model = genai.GenerativeModel("gemini-1.5-flash")
 
-            response = self.anthropic_client.messages.create(
-                model="claude-3-5-sonnet-20241022",
-                max_tokens=8192,
-                temperature=0,
-                system="You are an expert at creating topic labels. In this task, you will be provided with a set of keywords related to ONE particular topic. Your job is to use these keywords, prioritizing the first keywords, to come up with an accurate and short label for the topic. It is crucial that you base your label STRICTLY on the keywords.",
-                messages=[
-                    {"role": "user", "content": prompt}
-                ]
-            )
-            response_content = response.content[0].text
+            response = model.generate_content(f"You are an expert at creating topic labels. In this task, you will be provided with a set of keywords related to ONE particular topic. Your job is to use these keywords, prioritizing the first keywords, to come up with an accurate and short label for the topic. It is crucial that you base your label STRICTLY on the keywords. 
+            {prompt}")
+           
+            response_content = response.text
 
             query_embedding = self.get_embeddings(query)
 
@@ -436,16 +431,11 @@ class TopicAI:
         """
 
     def _get_ai_summary(self, query: str, theme: str) -> str:
-        response = self.anthropic_client.messages.create(
-            model="claude-3-5-sonnet-20241022",
-            max_tokens=8192,
-            temperature=0,
-            system=f'You are a scientist working on a project about scientific abstracts related to the topic: {theme}. You are an expert at writing summaries based upon abstracts. You DO NOT use information outside of the provided text. You are a scientific abstract summarizer, so the summary must be based ONLY on the provided text. Answer directly about the topic: {theme}, DO NOT tell this is the summary or use the word "summary" or "abstract" in your response.',
-            messages=[
-                {"role": "user", "content": query}
-            ]
-        )
-        return response.content[0].text
+        model = genai.GenerativeModel("gemini-1.5-flash")
+
+        response = model.generate_content(f'You are a scientist working on a project about scientific abstracts related to the topic: {theme}. You are an expert at writing summaries based upon abstracts. You DO NOT use information outside of the provided text. You are a scientific abstract summarizer, so the summary must be based ONLY on the provided text. Answer directly about the topic: {theme}, DO NOT tell this is the summary or use the word "summary" or "abstract" in your response. 
+        {prompt}')
+        return response.text
     def create_markdown_toc(self, text):
         lines = text.split('\n')
         toc = ["## Table of topics"]
