@@ -28,7 +28,7 @@ def set_api_keys(pybliometrics_key: str = None, gemini_key: str = None, voyage_k
         # Set Voyage AI API key
         voyageai.api_key = os.getenv('VOYAGE_API_KEY')
 
-        # Initialize Anthropic client
+        # Initialize Gemini client
         genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
         return True
