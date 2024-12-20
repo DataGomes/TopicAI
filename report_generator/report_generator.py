@@ -50,7 +50,6 @@ class TopicAI:
         self.stop_words = set(stopwords.words('english')) - {'d'}
         self.punctuation_translator = str.maketrans('', '', string.punctuation.replace('-', ''))
         self.vo = voyageai.Client()
-        self.anthropic_client = anthropic.Anthropic()
         self.counter = 0
         self.counter_lock = Lock()
 
