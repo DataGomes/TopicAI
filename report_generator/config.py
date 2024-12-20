@@ -2,9 +2,9 @@ import os
 from dotenv import load_dotenv
 import pybliometrics.scopus
 import voyageai
-import anthropic
+import google.generativeai as genai
 
-def set_api_keys(pybliometrics_key: str = None, claude_key: str = None, voyage_key: str = None):
+def set_api_keys(pybliometrics_key: str = None, gemini_key: str = None, voyage_key: str = None):
     """
     Set API keys for the various services used by the TopicAI.
     If keys are not provided, it will attempt to load them from environment variables.
@@ -18,8 +18,8 @@ def set_api_keys(pybliometrics_key: str = None, claude_key: str = None, voyage_k
         os.environ['PYBLIOMETRICS_API_KEY'] = pybliometrics_key
     if voyage_key:
         os.environ['VOYAGE_API_KEY'] = voyage_key
-    if claude_key:
-        os.environ['ANTHROPIC_API_KEY'] = claude_key
+    if gemini_key:
+        os.environ['GEMINI_API_KEY'] = gemini_key
 
     try:
         # Initialize Scopus with the API key
@@ -29,7 +29,7 @@ def set_api_keys(pybliometrics_key: str = None, claude_key: str = None, voyage_k
         voyageai.api_key = os.getenv('VOYAGE_API_KEY')
 
         # Initialize Anthropic client
-        anthropic.Anthropic(api_key=os.getenv('ANTHROPIC_API_KEY'))
+        genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
         return True
     except Exception as e:
